@@ -16,6 +16,7 @@
     <p class="card-text">Category: {{book.category.name}}</p>
     <p class="card-text">Book ID: {{book.id}}</p>
     <a class="btn btn-light text-dark" href="{% url 'borrow' book.id %}">Borrow</a>
+    {% if request.user.is_authenticated %}
     <div class="card m-4">
       <p class="h5 p-3">Total Reviews: {{ reviews | length }}</p>
       {% for review in reviews %}
@@ -37,5 +38,6 @@
       </div>
     </div>
   </div>
+    {% endif %}
 </div>
 {% endblock %}
