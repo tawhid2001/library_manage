@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="d-flex flex-wrap px-2">
+  <div class="card-body text-center">
+    <div class="d-flex justify-content-center align-items-center">
+      <img class="card-img-top mt-5" style="width:500px;" src="{{book.image.url}}" alt="Card image cap" />
+    </div>
+    <h5 class="card-title">
+      <p class="h2 text-decoration-none text-dark">{{book.title}}</p>
+    </h5>
+    <p class="card-text">{{book.description}}</p>
+    <p class="card-text">Author: {{book.book_author }}</p>
+    <p class="card-text">Borrowing Price: {{book.borrowing_price }}</p>
+    <p class="card-text">Category: {{book.category.name}}</p>
+    <p class="card-text">Book ID: {{book.id}}</p>
+    <a class="btn btn-light text-dark" href="{% url 'borrow' book.id %}">Borrow</a>
+    <div class="card m-4">
+      <p class="h5 p-3">Total Reviews: {{ reviews | length }}</p>
+      {% for review in reviews %}
+      <div class="card-body border m-3">
+        <p class="h5">Reviewed by: {{ review.user.username }} on <small>{{ review.created_on }}</small></p>
+        <p>{{ review.body }}</p>
+        <p>Rating: {{ review.rating }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="card m-4">
+      <div class="card-body">
+        <form class="pt-5" method="post">
+          <h1>Add Review</h1>
+          {% csrf_token %} {{ review_form | crispy }}
+          <button class="btn btn-warning mb-3" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

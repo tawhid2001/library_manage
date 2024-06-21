@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block content %}
+
+{% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+            <div class="bg-{{message.tags}} text-white">
+                <h3>{{message}}</h3>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<h1 class="text-center">Profile Page</h1>
+
+
+<div class="container mt-5">
+    <h2>Borrowing History</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Borrow Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.book.title }}</td>
+                <td>{{ transaction.borrow_date|date:"Y-m-d H:i" }}</td>
+                <td>
+                    {% if transaction.return_date %}
+                        {{ transaction.return_date|date:"Y-m-d H:i" }}
+                        <td><a class="btn btn-success">1</a></td>
+                    {% else %}
+                        <a class="btn btn-secondary" href="{% url 'return' transaction.id %}">Return Book<a>
+                            <td><a class="btn btn-danger">0</a></td>
+                    {% endif %}
+                </td>
+                <td>{{ transaction.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+{% endblock %}

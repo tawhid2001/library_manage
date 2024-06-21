@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Return Book Details</h2>
+<p><strong>Title:</strong> {{ transaction.book.title }}</p>
+<p><strong>Borrow Date:</strong> {{ transaction.borrow_date }}</p>
+<p><strong>Borrow Amount:</strong> ${{ transaction.amount }}</p>
+
+{% if transaction.return_date %}
+    <p><strong>Return Date:</strong> {{ transaction.return_date }}</p>
+    <p class="text-success">Book returned successfully!</p>
+{% else %}
+    <form action="{% url 'return' transaction.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-dark">Confirm Return</button>
+    </form>
+{% endif %}
+</div>
+{% endblock content %}
