@@ -2,6 +2,16 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+{% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+            <div class="bg-danger text-white">
+                <h3>{{message}}</h3>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 <div class="d-flex flex-wrap px-2">
   <div class="card-body text-center">
     <div class="d-flex justify-content-center align-items-center">

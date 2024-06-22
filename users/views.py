@@ -10,6 +10,7 @@ from transactions.models import BorrowingTransaction
 from users.models import UserLibraryAccount
 from django.contrib.auth.decorators import login_required
 from . import forms
+from django.db.utils import IntegrityError
 
 
 # Create your views here.
@@ -20,9 +21,13 @@ class UserRegistrationView(FormView):
     success_url = reverse_lazy('profile')
 
     def form_valid(self,form):
-        user = form.save()
-        login(self.request,user)
-        return super().form_valid(form)
+        try:
+            user = form.save()
+            login(self.request, user)
+            return super().form_valid(form)
+        except IntegrityError:
+            form.add_error('username', 'Username already exists. Please choose a different one.')
+            return self.form_invalid(form)
     
 
 class UserLoginView(LoginView):
