@@ -42,7 +42,8 @@
       <div class="card-body">
         <form class="pt-5" method="post">
           <h1>Add Review</h1>
-          {% csrf_token %} {{ review_form | crispy }}
+          {% csrf_token %} 
+          {{ review_form | crispy }}
           <button class="btn btn-warning mb-3" type="submit">Submit</button>
         </form>
       </div>
